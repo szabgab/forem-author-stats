@@ -3,12 +3,18 @@ import os
 import json
 import argparse
 import time
+import pathlib
 
 # TODO: use API key?
 # TODO: Maybe compare the github_username that arrived in the JSON to the same field supplied by the user when configured the job
 
 def collect(username, limit):
     # print(f"collect({username}, {limit})")
+
+    root = pathlib.Path(__file__).parent
+    data = root.joinpath('data')
+    if not data.exists():
+        data.mkdir()
 
     page = 0
     articles = {}
@@ -34,10 +40,10 @@ def collect(username, limit):
         if limit is not None and page >= limit:
             break
 
-    with open('articles.json', 'w') as fh:
+    with open(data.joinpath('articles.json'), 'w') as fh:
         json.dump(articles, fh)
     ts = int(time.time())
-    with open(f'stats-{ts}.json', 'w') as fh:
+    with open(data.joinpath(f'stats-{ts}.json'), 'w') as fh:
         json.dump(statistics, fh)
 
 
