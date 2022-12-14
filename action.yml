@@ -8,4 +8,7 @@ inputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+  args:
+    - '--username'
+    - ${{ inputs.username }}
 
