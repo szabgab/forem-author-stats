@@ -9,10 +9,10 @@ import pathlib
 # TODO: Maybe compare the github_username that arrived in the JSON to the same field supplied by the user when configured the job
 
 def collect(username, data, limit):
-    print(f"collect({username}, {limit})")
+    print(f"collect({username}, {data}, {limit})")
 
     if data:
-        data = pathlib.Path(__file__)
+        data = pathlib.Path(data)
     else:
         root = pathlib.Path(__file__).parent
         data = root.joinpath('data')
