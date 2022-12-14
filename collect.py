@@ -8,24 +8,21 @@ import pathlib
 # TODO: use API key?
 # TODO: Maybe compare the github_username that arrived in the JSON to the same field supplied by the user when configured the job
 
-def collect(username, limit):
-    print(f"collect({username}, {limit})")
+def collect(username, host, limit):
+    print(f"collect({username}, {host}, {limit})")
 
     data = pathlib.Path.cwd().joinpath('data')
     if not data.exists():
         data.mkdir()
     print(f"Data dir: {data}")
 
-    with open("README.md") as fh:
-        print(fh.read())
-
     page = 0
     articles = {}
     statistics = {}
     while True:
         page += 1
-        url = f'https://dev.to/api/articles?username={username}&page={page}'
-        #url = f'https://community.codenewbie.org/api/articles?username={username}&page={page}'
+        url = f'https://{host}/api/articles?username={username}&page={page}'
+        #url = f'https:///api/articles?username={username}&page={page}'
         # print(url)
 
         res = requests.get(url, headers = {'Accept': 'application/vnd.forem.api-v1+json'})
@@ -50,6 +47,8 @@ def collect(username, limit):
         json.dump(statistics, fh)
 
 def generate_html():
+    print("generate_html")
+
     html = pathlib.Path.cwd().joinpath('_site')
     if not html.exists():
         html.mkdir()
@@ -57,6 +56,8 @@ def generate_html():
         fh.write("<h1>Report</h1>\n")
 
 def commit():
+    print("commit")
+
     os.system("git config --global user.name 'Gabor Szabo'")
     os.system("git config --global user.email 'gabor@szabgab.com'")
     os.system("git add data/")
@@ -65,16 +66,25 @@ def commit():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--username',  help="The username on DEV.to", required=True)
-    #parser.add_argument('--data',      help='The folder for the data')
+    parser.add_argument('--username',  help='The username on the Forem site', required=True)
+    parser.add_argument('--host',      help='The hostname of the Forem site', required=True)
+    parser.add_argument('--collect',   help='Get the data from the Forem API', action='store_true')
+    parser.add_argument('--commit',    help='Commit the downloaded data to git', action='store_true')
+    parser.add_argument('--html',      help='Generate the HTML report', action='store_true')
     parser.add_argument('--limit',     help='Max number of pages to fetch', type=int)
     args = parser.parse_args()
 
     # github_username = os.environ.get('GITHUB_REPOSITORY_OWNER')
+    hosts = ('dev.to', 'community.codenewbie.org')
+    if args.host not in hosts:
+        exit('Invalid host')
 
-    collect(args.username, args.limit)
-    commit()
-    generate_html()
+    if args.collect:
+        collect(args.username, args.host, args.limit)
+    if args.commit:
+        commit()
+    if args.html:
+        generate_html()
 
 main()
 
