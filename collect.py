@@ -49,6 +49,11 @@ def collect(username, limit):
     with open(data.joinpath(f'stats-{ts}.json'), 'w') as fh:
         json.dump(statistics, fh)
 
+def generate_html():
+    html = pathlib.Path.cwd().joinpath('_site')
+    with open(html.joinpath('index.html'), 'w') as fh:
+        fh.write("<h1>Report</h1>\n")
+
 def commit():
     os.system("git config --global user.name 'Gabor Szabo'")
     os.system("git config --global user.email 'gabor@szabgab.com'")
@@ -67,6 +72,7 @@ def main():
 
     collect(args.username, args.limit)
     commit()
+    generate_html()
 
 main()
 
