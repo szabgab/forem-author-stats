@@ -51,6 +51,8 @@ def collect(username, limit):
 
 def generate_html():
     html = pathlib.Path.cwd().joinpath('_site')
+    if not html.exists():
+        html.mkdir()
     with open(html.joinpath('index.html'), 'w') as fh:
         fh.write("<h1>Report</h1>\n")
 
