@@ -8,11 +8,14 @@ import pathlib
 # TODO: use API key?
 # TODO: Maybe compare the github_username that arrived in the JSON to the same field supplied by the user when configured the job
 
-def collect(username, limit):
+def collect(username, data, limit):
     print(f"collect({username}, {limit})")
 
-    root = pathlib.Path(__file__).parent
-    data = root.joinpath('data')
+    if data:
+        data = pathlib.Path(__file__)
+    else:
+        root = pathlib.Path(__file__).parent
+        data = root.joinpath('data')
     if not data.exists():
         data.mkdir()
     print(f"Data dir: {data}")
@@ -53,12 +56,13 @@ def collect(username, limit):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--username',  help="The username on DEV.to", required=True)
+    parser.add_argument('--data',      help='The folder for the data')
     parser.add_argument('--limit',     help='Max number of pages to fetch', type=int)
     args = parser.parse_args()
 
     # github_username = os.environ.get('GITHUB_REPOSITORY_OWNER')
 
-    collect(args.username, args.limit)
+    collect(args.username, args.data, args.limit)
 
 main()
 
