@@ -1,0 +1,11 @@
+name: Author stats of a Forem-based site
+
+inputs:
+  username:
+    description: 'Username on the Forem site'
+    required: true
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+
