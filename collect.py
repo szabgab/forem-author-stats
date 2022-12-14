@@ -11,7 +11,7 @@ import pathlib
 def collect(username, limit):
     print(f"collect({username}, {limit})")
 
-    data = Path.cwd().joinpath('data')
+    data = pathlib.Path.cwd().joinpath('data')
     if not data.exists():
         data.mkdir()
     print(f"Data dir: {data}")
