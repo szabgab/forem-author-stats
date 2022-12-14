@@ -15,6 +15,10 @@ def collect(username, limit):
     data = root.joinpath('data')
     if not data.exists():
         data.mkdir()
+    print(f"Data dir: {data}")
+
+    with open("README.md") as fh:
+        print(fh.read())
 
     page = 0
     articles = {}
