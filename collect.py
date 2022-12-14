@@ -8,14 +8,10 @@ import pathlib
 # TODO: use API key?
 # TODO: Maybe compare the github_username that arrived in the JSON to the same field supplied by the user when configured the job
 
-def collect(username, data, limit):
-    print(f"collect({username}, {data}, {limit})")
+def collect(username, limit):
+    print(f"collect({username}, {limit})")
 
-    if data:
-        data = pathlib.Path(data)
-    else:
-        root = pathlib.Path(__file__).parent
-        data = root.joinpath('data')
+    data = Path.cwd().joinpath('data')
     if not data.exists():
         data.mkdir()
     print(f"Data dir: {data}")
@@ -53,16 +49,24 @@ def collect(username, data, limit):
     with open(data.joinpath(f'stats-{ts}.json'), 'w') as fh:
         json.dump(statistics, fh)
 
+def commit():
+    os.system("git config --global user.name 'Gabor Szabo'")
+    os.system("git config --global user.email 'gabor@szabgab.com'")
+    os.system("git add data/")
+    os.system("git commit -m 'Update collected data'")
+    os.system("git push")
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--username',  help="The username on DEV.to", required=True)
-    parser.add_argument('--data',      help='The folder for the data')
+    #parser.add_argument('--data',      help='The folder for the data')
     parser.add_argument('--limit',     help='Max number of pages to fetch', type=int)
     args = parser.parse_args()
 
     # github_username = os.environ.get('GITHUB_REPOSITORY_OWNER')
 
-    collect(args.username, args.data, args.limit)
+    collect(args.username, args.limit)
+    commit()
 
 main()
 
