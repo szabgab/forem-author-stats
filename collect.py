@@ -9,7 +9,7 @@ import pathlib
 # TODO: Maybe compare the github_username that arrived in the JSON to the same field supplied by the user when configured the job
 
 def collect(username, limit):
-    # print(f"collect({username}, {limit})")
+    print(f"collect({username}, {limit})")
 
     root = pathlib.Path(__file__).parent
     data = root.joinpath('data')
@@ -62,12 +62,9 @@ def main():
     parser.add_argument('--limit',     help='Max number of pages to fetch', type=int)
     args = parser.parse_args()
 
-    if args.username:
-        username = args.username
-
     # github_username = os.environ.get('GITHUB_REPOSITORY_OWNER')
 
-    collect(username, args.limit)
+    collect(args.username, args.limit)
     commit()
 
 main()
