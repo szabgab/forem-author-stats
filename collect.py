@@ -46,16 +46,6 @@ def collect(username, limit):
     with open(data.joinpath(f'stats-{ts}.json'), 'w') as fh:
         json.dump(statistics, fh)
 
-
-def commit():
-    os.system("ls -l")
-    os.system("pwd")
-    os.system("git config --global user.name 'Gabor Szabo'")
-    os.system("git config --global user.email 'gabor@szabgab.com'")
-    os.system("git add data")
-    os.system("git commit -m 'Automated Web page generation'")
-    os.system("git push")
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--username',  help="The username on DEV.to", required=True)
@@ -65,7 +55,6 @@ def main():
     # github_username = os.environ.get('GITHUB_REPOSITORY_OWNER')
 
     collect(args.username, args.limit)
-    commit()
 
 main()
 
