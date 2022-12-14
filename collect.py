@@ -64,25 +64,37 @@ def commit():
     os.system("git commit -m 'Update collected data'")
     os.system("git push")
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--username',  help='The username on the Forem site', required=True)
-    parser.add_argument('--host',      help='The hostname of the Forem site', required=True)
-    parser.add_argument('--collect',   help='Get the data from the Forem API', action='store_true')
-    parser.add_argument('--commit',    help='Commit the downloaded data to git', action='store_true')
-    parser.add_argument('--html',      help='Generate the HTML report', action='store_true')
-    parser.add_argument('--limit',     help='Max number of pages to fetch', type=int)
+def get_args():
+    main_parser = argparse.ArgumentParser(add_help=False)
+    main_parser.add_argument('--commit',    help='Commit the downloaded data to git', action='store_true')
+    main_parser.add_argument('--html',      help='Generate the HTML report', action='store_true')
+    main_parser.add_argument('--collect',   help='Get the data from the Forem API', action='store_true')
+    main_args, _ = main_parser.parse_known_args()
+
+    parser = argparse.ArgumentParser(parents=[main_parser])
+    if main_args.collect:
+        parser.add_argument('--username',  help='The username on the Forem site', required=main_args.collect)
+        parser.add_argument('--host',      help='The hostname of the Forem site', required=main_args.collect)
+        parser.add_argument('--limit',     help='Max number of pages to fetch', type=int)
+
     args = parser.parse_args()
 
+    return args
+
+def main():
+    args = get_args()
+
     # github_username = os.environ.get('GITHUB_REPOSITORY_OWNER')
-    hosts = ('dev.to', 'community.codenewbie.org')
-    if args.host not in hosts:
-        exit('Invalid host')
 
     if args.collect:
+        hosts = ('dev.to', 'community.codenewbie.org')
+        if args.host not in hosts:
+            exit('Invalid host')
         collect(args.username, args.host, args.limit)
+
     if args.commit:
         commit()
+
     if args.html:
         generate_html()
 
