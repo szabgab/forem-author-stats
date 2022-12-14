@@ -49,19 +49,14 @@ def collect(username, limit):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--username',  help="The username on DEV.to")
+    parser.add_argument('--username',  help="The username on DEV.to", required=True)
     parser.add_argument('--limit',     help='Max number of pages to fetch', type=int)
     args = parser.parse_args()
-
-    username = os.environ.get('DEV_TO_USERNAME')
 
     if args.username:
         username = args.username
 
     # github_username = os.environ.get('GITHUB_REPOSITORY_OWNER')
-
-    if not username:
-        exit(f"You have to supply the USERNAME either as a command line or as the environment variable DEV_TO_USERNAME")
 
     collect(username, args.limit)
 
