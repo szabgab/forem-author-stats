@@ -48,9 +48,11 @@ def collect(username, limit):
 
 
 def commit():
-   os.system('git add data')
-   os.system('git commit -m "Automated Web page generation"')
-   os.system('git push')
+   os.system("git config --global user.name 'Gabor Szabo'")
+   os.system("git config --global user.email 'gabor@szabgab.com'")
+   os.system("git add data")
+   os.system("git commit -m 'Automated Web page generation'")
+   os.system("git push")
 
 def main():
     parser = argparse.ArgumentParser()
