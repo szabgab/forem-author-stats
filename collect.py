@@ -26,6 +26,11 @@ def collect(username, host, limit):
         # print(url)
 
         res = requests.get(url, headers = {'Accept': 'application/vnd.forem.api-v1+json'})
+        if res.status_code != 200:
+            print(f"Failed request. Status code {res.status_code}")
+            print(res.text)
+            exit(1)
+
         print(f"Number of elements in response: {len(res.json())}")
         if len(res.json()) == 0:
             break
