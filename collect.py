@@ -70,6 +70,9 @@ def get_args():
     main_parser.add_argument('--html',      help='Generate the HTML report', action='store_true')
     main_parser.add_argument('--collect',   help='Get the data from the Forem API', action='store_true')
     main_args, _ = main_parser.parse_known_args()
+    if not main_args.commit and not main_args.html and not main_args.collect:
+        main_parser.print_help()
+        exit()
 
     parser = argparse.ArgumentParser(parents=[main_parser])
     if main_args.collect:
