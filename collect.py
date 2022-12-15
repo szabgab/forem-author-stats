@@ -16,12 +16,14 @@ def collect(username, host, limit):
         data.mkdir()
     print(f"Data dir: {data}")
 
+    per_page = 100
+
     page = 0
     articles = {}
     statistics = {}
     while True:
         page += 1
-        url = f'https://{host}/api/articles?username={username}&page={page}'
+        url = f'https://{host}/api/articles?username={username}&page={page}&per_page={per_page}'
         # print(url)
 
         res = requests.get(url, headers = {'Accept': 'application/vnd.forem.api-v1+json'})
