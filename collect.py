@@ -18,6 +18,8 @@ def collect(username, host, limit):
 
     per_page = 100
 
+    api_key = os.environ.get('DEV_TO_API')
+
     page = 0
     articles = {}
     statistics = {}
@@ -26,7 +28,11 @@ def collect(username, host, limit):
         url = f'https://{host}/api/articles?username={username}&page={page}&per_page={per_page}'
         # print(url)
 
-        res = requests.get(url, headers = {'Accept': 'application/vnd.forem.api-v1+json'})
+        headers = {'Accept': 'application/vnd.forem.api-v1+json'}
+        if api_key is not None:
+            headers['api-key'] = api_key
+
+        res = requests.get(url, headers = headers)
         if res.status_code != 200:
             print(f"Failed request. Status code {res.status_code}")
             print(res.text)
