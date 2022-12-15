@@ -22,7 +22,6 @@ def collect(username, host, limit):
     while True:
         page += 1
         url = f'https://{host}/api/articles?username={username}&page={page}'
-        #url = f'https:///api/articles?username={username}&page={page}'
         # print(url)
 
         res = requests.get(url, headers = {'Accept': 'application/vnd.forem.api-v1+json'})
