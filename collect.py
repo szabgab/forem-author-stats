@@ -75,7 +75,7 @@ def generate_html():
 
     template = 'index.html'
 
-    templates_dir = pathlib.Path.cwd().joinpath('templates')
+    templates_dir = pathlib.Path(__file__).parent.joinpath('templates')
     env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
     html_template = env.get_template(template)
     html_content = html_template.render(
