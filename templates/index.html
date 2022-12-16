@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-    <title>{{ title }}</title>
+    <title>{{ title }} ot {{ articles.0.user.name }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/57525b30bb.js"></script>
@@ -12,13 +12,22 @@
   <body>
     <section id="main-section" class="section">
       <div class="container">
-        Report
+        <h1>DEV.to Report</h1>
+        <a href="https://dev.to/{{ articles.0.user.username }}">{{ articles.0.user.name }}</a>
+        <img src="{{ articles.0.user.profile_image_90 }}">
+        <h2 id="articles">Articles</h2>
 
-        <ul>
         {% for article in articles %}
-            <li>{{ article.title }} {{ article.published_at }}</li>
+            <div class="article">
+                <a href="{{ article.url }}">{{ article.title }}</a> {{ article.published_at }}
+                Reactions: {{ article.public_reactions_count }}
+                Comments: {{ article.comments_count }}
+                Page views: {{ article.page_views_count }}
+                {% for tag in article.tag_list %}
+                    {{ tag }}
+                {% endfor %}
+            </div>
         {% endfor %}
-        </ul>
       </div>
     </section>
 
