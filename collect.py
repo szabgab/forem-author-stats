@@ -49,6 +49,7 @@ def collect(host, limit):
                 'comments_count': article['comments_count'],
                 'public_reactions_count': article['public_reactions_count'],
                 'positive_reactions_count': article['positive_reactions_count'],
+                'page_views_count': article['page_views_count'],
             }
         if limit is not None and page >= limit:
             break
