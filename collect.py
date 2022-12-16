@@ -67,6 +67,21 @@ def generate_html():
         articles = json.load(fh)
 
     articles_list = sorted(articles.values(), key=lambda art: int(art['id']), reverse=True)
+    tags = {}
+    fields = ['page_views_count']
+    for article in articles_list:
+        for tag in article["tag_list"]:
+            if tag not in tags:
+                tags[tag] = {
+                    'articles': 0,
+                }
+                for field in fields:
+                    tags[tag][field] = 0
+
+            tags[tag]['articles'] += 1
+            for field in fields:
+                tags[tag][field] += article[field]
+
 
 
     html = pathlib.Path.cwd().joinpath('_site')
@@ -80,7 +95,8 @@ def generate_html():
     html_template = env.get_template(template)
     html_content = html_template.render(
         title = "DEV.to Analytics",
-        articles=articles_list,
+        articles = articles_list,
+        tags = tags,
     )
 
     with open(html.joinpath('index.html'), 'w') as fh:

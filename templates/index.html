@@ -28,6 +28,15 @@
                 {% endfor %}
             </div>
         {% endfor %}
+
+        <h2 id="Tags">Tags</h2>
+            {% for tag in tags.keys() %}
+                <div>
+                    {{tag}}
+                    {{tags[tag].articles}}
+                    {{tags[tag].page_views_count}}
+                </div>
+            {% endfor %}
       </div>
     </section>
 
