@@ -14,7 +14,7 @@ def collect(host, limit):
         data.mkdir()
     print(f"Data dir: {data}")
 
-    per_page = 30
+    per_page = 100
 
     api_key = os.environ.get('FOREM_API_KEY')
     if not api_key:
