@@ -56,8 +56,8 @@ def collect(host, limit):
 
     with open(data.joinpath('articles.json'), 'w') as fh:
         json.dump(articles, fh)
-    ts = int(time.time())
-    with open(data.joinpath(f'stats-{ts}.json'), 'w') as fh:
+    filename = time.strftime("stats-%Y-%m-%d--%H-%M-%S.json")
+    with open(data.joinpath(filename), 'w') as fh:
         json.dump(statistics, fh)
 
 def generate_html():
