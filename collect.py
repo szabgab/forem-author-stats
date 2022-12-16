@@ -4,6 +4,7 @@ import json
 import argparse
 import time
 import pathlib
+from jinja2 import Environment, FileSystemLoader
 
 def collect(host, limit):
     print(f"collect({host}, {limit})")
@@ -61,11 +62,30 @@ def collect(host, limit):
 def generate_html():
     print("generate_html")
 
+    data = pathlib.Path.cwd().joinpath('data')
+    with open(data.joinpath('articles.json')) as fh:
+        articles = json.load(fh)
+
+    articles_list = sorted(articles.values(), key=lambda art: int(art['id']), reverse=True)
+
+
     html = pathlib.Path.cwd().joinpath('_site')
     if not html.exists():
         html.mkdir()
+
+    template = 'index.html'
+
+    templates_dir = pathlib.Path.cwd().joinpath('templates')
+    env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
+    html_template = env.get_template(template)
+    html_content = html_template.render(
+        title = "DEV.to Analytics",
+        articles=articles_list,
+    )
+
     with open(html.joinpath('index.html'), 'w') as fh:
-        fh.write("<h1>Report</h1>\n")
+        fh.write(html_content)
+
 
 def commit():
     print("commit")
