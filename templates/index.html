@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
-    <title>{{ title }} ot {{ articles.0.user.name }}</title>
+    <title>{{ title }} ot {{ user.name }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://use.fontawesome.com/57525b30bb.js"></script>
@@ -13,30 +13,11 @@
     <section id="main-section" class="section">
       <div class="container">
         <h1>DEV.to Report</h1>
-        <a href="https://dev.to/{{ articles.0.user.username }}">{{ articles.0.user.name }}</a>
-        <img src="{{ articles.0.user.profile_image_90 }}">
+        <a href="https://dev.to/{{ user.username }}">{{ user.name }}</a>
+        <img src="{{ user.profile_image_90 }}">
         <h2 id="articles">Articles</h2>
 
-        {% for article in articles %}
-            <div class="article">
-                <a href="{{ article.url }}">{{ article.title }}</a> {{ article.published_at }}
-                Reactions: {{ article.public_reactions_count }}
-                Comments: {{ article.comments_count }}
-                Page views: {{ article.page_views_count }}
-                {% for tag in article.tag_list %}
-                    {{ tag }}
-                {% endfor %}
-            </div>
-        {% endfor %}
-
-        <h2 id="Tags">Tags</h2>
-            {% for tag in tags.keys() %}
-                <div>
-                    {{tag}}
-                    {{tags[tag].articles}}
-                    {{tags[tag].page_views_count}}
-                </div>
-            {% endfor %}
+        <h2 id="tags">Tags</h2>
       </div>
     </section>
 

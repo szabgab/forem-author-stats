@@ -91,13 +91,19 @@ def generate_html():
 
     template = 'index.html'
 
+    with open(html.joinpath('tags.json'), "w") as fh:
+        json.dump(tags, fh)
+    with open(html.joinpath('articles.json'), "w") as fh:
+        json.dump(articles_list, fh)
+
     templates_dir = pathlib.Path(__file__).parent.joinpath('templates')
     env = Environment(loader=FileSystemLoader(templates_dir), autoescape=True)
     html_template = env.get_template(template)
     html_content = html_template.render(
         title = "DEV.to Analytics",
-        articles = articles_list,
-        tags = tags,
+        user = articles_list[0]['user'],
+        #articles = articles_list,
+        #tags = tags,
     )
 
     with open(html.joinpath('index.html'), 'w') as fh:
