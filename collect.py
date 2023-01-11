@@ -113,8 +113,8 @@ def generate_html():
 def commit():
     print("commit")
 
-    os.system("git config --global user.name 'Gabor Szabo'")
-    os.system("git config --global user.email 'gabor@szabgab.com'")
+    os.system("git config user.name github-actions[bot]")
+    os.system("git config user.email 41898282+github-actions[bot]@users.noreply.github.com")
     os.system("git add data/")
     os.system("git commit -m 'Update collected data'")
     os.system("git push")
